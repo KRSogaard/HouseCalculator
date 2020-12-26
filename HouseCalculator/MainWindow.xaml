@@ -1,0 +1,212 @@
+﻿<Window x:Class="HouseCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HouseCalculator"
+        xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="400px" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="5">
+            <local:InputItemUserControl
+                Label="Purchase Price:"
+                Prefix="$"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding PurchasePriceField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Land Value:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding LandValuePtcField, UpdateSourceTrigger=PropertyChanged}"
+                Help="{Binding LandValueText}"/>
+
+            <local:InputItemUserControl
+                Label="Down Payment:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding DownPaymentPtcField, UpdateSourceTrigger=PropertyChanged}"
+                Help="{Binding DownPaymentText}"/>
+
+            <TextBlock Margin="0, 5, 0, 0" FontWeight="Bold">Closing Costs</TextBlock>
+
+            <local:InputItemUserControl
+                Label="Loan Fees:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding LoanFeeField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Escrow:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding EscrowPtcField, UpdateSourceTrigger=PropertyChanged}"
+                Help="{Binding EscrowText}"/>
+
+            <local:InputItemUserControl
+                Label="Remodel Cost:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding RemodelCostField, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <local:InputItemUserControl
+                Label="Remodel value increase:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding RemodelValueIncreaseField, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontWeight="Bold" Margin="0,0,5,0">Total Closing:</TextBlock>
+                <TextBlock Text="{Binding TotalClosing}" />
+            </StackPanel>
+
+            <local:InputItemUserControl
+                Label="Loan Rate:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding LoanPtcField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Loan Terms:"
+                Prefix="years "
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding LoanTermsField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Rent Income:"
+                Prefix="$"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding RentIncomeField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Management fee:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding ManagementFeePtcField, UpdateSourceTrigger=PropertyChanged}"
+                Help="{Binding ManagementFeeText}"/>
+
+            <local:InputItemUserControl
+                Label="Maintenance cost:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding MaintenanceCostPtcField, UpdateSourceTrigger=PropertyChanged}"
+                Help="{Binding MaintenanceCostText}"/>
+
+            <local:InputItemUserControl
+                Label="Tax Rate:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding TaxRatePtcField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Property tax:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding PropertyTaxPtcField, UpdateSourceTrigger=PropertyChanged}"
+                Help="{Binding PropertyTaxText}"/>
+
+            <local:InputItemUserControl
+                Label="Vacancy Rate:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding VacancyRatePtcField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Annual appreciation increase:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding AnnualAppreciationPtcField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Annual rent increase:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding AnnualRentPtcField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Annual utilities:"
+                Prefix="$"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding AnnualUtilitiesField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Annual insurance:"
+                Prefix="$"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding AnnualInsuranceField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Annual other costs:"
+                Prefix="$"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding AnnualOtherCostField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <local:InputItemUserControl
+                Label="Sales fee:"
+                Prefix="%"
+                OnEnter="{Binding CalculateCommand}"
+                Value="{Binding SalesFeePtcField, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Button Margin="0, 5, 0 ,0" Command="{Binding CalculateCommand}">Calculate</Button>
+
+            <Grid Margin="0, 10, 0 ,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Text="{Binding SavedName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Button Grid.Column="1" Command="{Binding SaveInputCommand}" IsEnabled="{Binding CanSaveInput}">Save Settings</Button>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox ItemsSource="{Binding SavedInputs}" SelectedItem="{Binding SelectedInputModel}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Grid.Column="1" Command="{Binding LoadInputCommand}">Load Settings</Button>
+                <Button Grid.Column="2" Command="{Binding DeleteInputCommand}">Delete Settings</Button>
+            </Grid>
+        </StackPanel>
+
+        <DataGrid
+                Grid.Column="1"
+                ItemsSource="{Binding Years}"
+                AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Year"
+                                    Binding="{Binding Year, Mode=OneWay}" />
+                <DataGridTextColumn Header="Monthly CHI"
+                                    Binding="{Binding MonthlyCHI, Mode=OneWay}" />
+                <DataGridTextColumn Header="Monthly CHI %"
+                                    Binding="{Binding MonthlyCHIPtc, StringFormat='f', Mode=OneWay}" />
+                <DataGridTextColumn Header="Sale %"
+                                Binding="{Binding SalePtc, Mode=OneWay}" />
+                <DataGridTextColumn Header="Value gain at sale"
+                                    Binding="{Binding SaleValue, Mode=OneWay}" />
+                <DataGridTextColumn Header="Total net income"
+                                    Binding="{Binding NetIncome, Mode=OneWay}" />
+                <DataGridTextColumn Header="Total tax paid"
+                                    Binding="{Binding TaxPaid, Mode=OneWay}" />
+                <DataGridTextColumn Header="Value gain"
+                                    Binding="{Binding ValueGain, Mode=OneWay}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>
