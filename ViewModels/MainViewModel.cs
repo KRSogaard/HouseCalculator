@@ -44,6 +44,16 @@ namespace HouseCalculator.ViewModels
         public string DownPaymentText => "$" + Math.Round(PurchasePrice * DownPaymentPtc, 2);
         public string LandValueText => "$" + Math.Round(PurchasePrice * LandValuePtc, 2);
 
+        private DownViewModel _downPaymentAnalyst;
+        public DownViewModel DownPaymentAnalyst
+        {
+            get { return _downPaymentAnalyst; }
+            set
+            {
+                SetProperty(ref _downPaymentAnalyst, value);
+            }
+        }
+
         private ObservableCollection<YearViewModel> _years;
         public ObservableCollection<YearViewModel> Years
         {
@@ -219,27 +229,7 @@ namespace HouseCalculator.ViewModels
                 {
                     _calculateCommand = new DelegateCommand(() =>
                     {
-                        HouseSimulator.HouseSimulatorInput input = new HouseSimulator.HouseSimulatorInput();
-                        input.PurchasePrice = PurchasePrice;
-                        input.LandValue = PurchasePrice * LandValuePtc;
-                        input.DownPayment = PurchasePrice * DownPaymentPtc;
-                        input.ClosingCost = LoanFee + PurchasePrice * EscrowPtc;
-                        input.RemodelCost = RemodelCost;
-                        input.RemodelValueIncrease = RemodelValueIncrease;
-                        input.LoanRatePtc = LoanPtc;
-                        input.LoanTermYears = LoanTerms;
-                        input.ManagementFeePtc = ManagementFeePtc;
-                        input.MaintenanceCostPtc = MaintenanceCostPtc;
-                        input.MonthlyRentIncomePerMonth = RentIncome;
-                        input.TaxRatePtc = TaxRatePtc;
-                        input.PropertyTaxPtc = PropertyTaxPtc;
-                        input.DepreciationOverYears = 27.5;
-                        input.VacancyRatePtc = VacancyRatePtc;
-                        input.ExpensesMonthly = (AnnualUtilities + AnnualInsurance + AnnualOtherCost) / 12;
-                        input.FeesAtSalePtc = SalesFeePtc;
-                        input.AnnualAppreciationPtc = AnnualAppreciationPtc;
-                        input.AnnualRentIncreasePtc = AnnualRentPtc;
-
+                        HouseSimulator.HouseSimulatorInput input = getCurrentInput();
                         HouseSimulator simulator = new HouseSimulator();
                         HouseSimulator.SimulationResult result = simulator.Simulate(input, 30);
 
@@ -248,11 +238,47 @@ namespace HouseCalculator.ViewModels
                         Months.Clear();
                         result.Months.ForEach(m => Months.Add(MonthViewModel.From(m, result)));
 
+
+                        DownPaymentAnalyst.Procentages.Clear();
+                        for (double down = 0.01; down <= 1.0001; down = down + 0.01)
+                        {
+                            input.DownPayment = PurchasePrice * down;
+                            result = simulator.Simulate(input, 5);
+
+                            var year5 = result.Years.Where(x => x.Year == 5).First();
+                            DownPaymentAnalyst.Procentages.Add(new DownPrcViewModel(down, result, year5));
+                        }
                     });
                 }
 
                 return _calculateCommand;
             }
+        }
+
+        private HouseSimulator.HouseSimulatorInput getCurrentInput()
+        {
+            HouseSimulator.HouseSimulatorInput input = new HouseSimulator.HouseSimulatorInput();
+            input.PurchasePrice = PurchasePrice;
+            input.LandValue = PurchasePrice * LandValuePtc;
+            input.DownPayment = PurchasePrice * DownPaymentPtc;
+            input.ClosingCost = LoanFee + PurchasePrice * EscrowPtc;
+            input.RemodelCost = RemodelCost;
+            input.RemodelValueIncrease = RemodelValueIncrease;
+            input.LoanRatePtc = LoanPtc;
+            input.LoanTermYears = LoanTerms;
+            input.ManagementFeePtc = ManagementFeePtc;
+            input.MaintenanceCostPtc = MaintenanceCostPtc;
+            input.MonthlyRentIncomePerMonth = RentIncome;
+            input.TaxRatePtc = TaxRatePtc;
+            input.PropertyTaxPtc = PropertyTaxPtc;
+            input.DepreciationOverYears = 27.5;
+            input.VacancyRatePtc = VacancyRatePtc;
+            input.ExpensesMonthly = (AnnualUtilities + AnnualInsurance + AnnualOtherCost) / 12;
+            input.FeesAtSalePtc = SalesFeePtc;
+            input.AnnualAppreciationPtc = AnnualAppreciationPtc;
+            input.AnnualRentIncreasePtc = AnnualRentPtc;
+
+            return input;
         }
 
         public MainViewModel()
@@ -287,6 +313,7 @@ namespace HouseCalculator.ViewModels
             {
                 SelectedInputModel = SavedInputs[0];
             }
+            DownPaymentAnalyst = new DownViewModel();
         }
 
         public Input toInput()

@@ -30,12 +30,15 @@ namespace HouseCalculator
                 
                 double principal = -Math.Round(Financial.PPmt(input.LoanRatePtc / 12, i, input.LoanTermYears * 12, totalLoan), 2);
                 double intrest = -Math.Round(Financial.IPmt(input.LoanRatePtc / 12, i, input.LoanTermYears * 12, totalLoan), 2);
+                simulationMonth.PrincipalPaid = principal;
+                simulationMonth.IntrestPaid = intrest;
 
                 double monthlyPropertyTax = input.PurchasePrice * (input.PropertyTaxPtc / 12.0);
                 double monthlyMaintenance = input.MaintenanceCostPtc * currentRent;
                 double monthlyManagement = input.ManagementFeePtc * currentRent;
                 double monthlyExpense = intrest + input.ExpensesMonthly + monthlyMaintenance + monthlyManagement + monthlyPropertyTax;
 
+                simulationMonth.PropertyTax = monthlyPropertyTax;
                 simulationMonth.Expenses = monthlyExpense;
                 simulationMonth.OutOfPocket = principal + monthlyExpense;
 
@@ -129,12 +132,18 @@ namespace HouseCalculator
                     double yearlyNetIncome = 0;
                     double yearlyTaxPaid = 0;
                     double yearlyValueGain = 0;
+                    double yearlyIntrestPaid = 0;
+                    double yearlyPrincipalPaid = 0;
+                    double yearlyPropertyTax = 0;
                     for (int q = result.Months.Count - 12; q < result.Months.Count; q++)
                     {
                         yearlyCashInHand += result.Months[q].CashInHand;
                         yearlyTaxPaid += result.Months[q].Tax;
                         yearlyNetIncome += result.Months[q].NetIncome;
                         yearlyValueGain += result.Months[q].ValueGain;
+                        yearlyIntrestPaid += result.Months[q].IntrestPaid;
+                        yearlyPrincipalPaid += result.Months[q].PrincipalPaid;
+                        yearlyPropertyTax += result.Months[q].PropertyTax;
                     }
                     result.Years.Add(new SimulationYear()
                     {
@@ -143,7 +152,10 @@ namespace HouseCalculator
                         ValueAtSale = valueAtSale,
                         NetIncome = yearlyNetIncome,
                         TaxPaid = yearlyTaxPaid,
-                        ValueGain = yearlyValueGain
+                        ValueGain = yearlyValueGain,
+                        IntrestPaid = yearlyIntrestPaid,
+                        PrincipalPaid = yearlyPrincipalPaid,
+                        PropertyTax = yearlyPropertyTax
                     });
                 }
             }
@@ -180,6 +192,9 @@ namespace HouseCalculator
             public double NetIncome { get; set; }
             public double TaxPaid { get; set; }
             public double ValueGain { get; set; }
+            public double IntrestPaid { get; set; }
+            public double PrincipalPaid { get; set; }
+            public double PropertyTax { get; internal set; }
 
             public override string ToString()
             {
@@ -192,12 +207,15 @@ namespace HouseCalculator
             public int Month { get; set; }
             public int Year { get; set; }
             public double OutOfPocket { get; set; }
+            public double PrincipalPaid { get; set; }
+            public double IntrestPaid { get; set; }
             public double RentIncome { get; set; }
             public double Expenses { get; set; }
             public double NetIncome { get; set; }
             public double CashInHand { get; set; }
             public double ValueGain { get; set; }
             public double TaxableIncome { get; set; }
+            public double PropertyTax { get; set; }
             public double Tax { get; set; }
             public double TaxCredit { get; set; }
 
