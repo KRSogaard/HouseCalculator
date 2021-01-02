@@ -45,7 +45,7 @@
                 Value="{Binding DownPaymentPtcField, UpdateSourceTrigger=PropertyChanged}"
                 Help="{Binding DownPaymentText}"/>
 
-            <TextBlock Margin="0, 5, 0, 0" FontWeight="Bold">Closing Costs</TextBlock>
+            <TextBlock FontSize="17" Margin="0, 5, 0, 0" FontWeight="Bold">Closing Costs</TextBlock>
 
             <local:InputItemUserControl
                 Label="Loan Fees:"
@@ -73,8 +73,8 @@
                 Value="{Binding RemodelValueIncreaseField, UpdateSourceTrigger=PropertyChanged}"/>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock FontWeight="Bold" Margin="0,0,5,0">Total Closing:</TextBlock>
-                <TextBlock Text="{Binding TotalClosing}" />
+                <TextBlock FontSize="17" FontWeight="Bold" Margin="0,0,5,0">Total Closing:</TextBlock>
+                <TextBlock FontSize="17" Text="{Binding TotalClosing}" />
             </StackPanel>
 
             <local:InputItemUserControl
@@ -208,7 +208,7 @@
                                         Binding="{Binding MonthlyCIH, Mode=OneWay}" />
                         <DataGridTextColumn Header="CIH %"
                                         Binding="{Binding MonthlyCIHPtc, StringFormat='f', Mode=OneWay}" />
-                        <DataGridTextColumn Header="Sale %"
+                        <DataGridTextColumn Header="ROI at Sale %"
                                     Binding="{Binding SalePtc, Mode=OneWay}" />
                         <DataGridTextColumn Header="Value gain at sale"
                                         Binding="{Binding SaleValue, Mode=OneWay}" />
