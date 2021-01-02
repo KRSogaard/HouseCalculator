@@ -36,13 +36,13 @@ namespace HouseCalculator.ViewModels
         public double AnnualOtherCost { get; set; }
         public double SalesFeePtc { get; set; }
 
-        public string TotalClosing => "$" + Math.Round(PurchasePrice * EscrowPtc + LoanFee + PurchasePrice * DownPaymentPtc + RemodelCost, 2);
-        public string ManagementFeeText => "$" + Math.Round(RentIncome * ManagementFeePtc, 2);
-        public string PropertyTaxText => "$" + Math.Round(PurchasePrice * PropertyTaxPtc, 2);
-        public string MaintenanceCostText => "$" + Math.Round(RentIncome * MaintenanceCostPtc, 2);
-        public string EscrowText => "$" + Math.Round(PurchasePrice * EscrowPtc, 2);
-        public string DownPaymentText => "$" + Math.Round(PurchasePrice * DownPaymentPtc, 2);
-        public string LandValueText => "$" + Math.Round(PurchasePrice * LandValuePtc, 2);
+        public string TotalClosing => "$" + String.Format("{0:n0}", Math.Round(PurchasePrice * EscrowPtc + LoanFee + PurchasePrice * DownPaymentPtc + RemodelCost, 2));
+        public string ManagementFeeText => "$" + String.Format("{0:n0}", Math.Round(RentIncome * ManagementFeePtc, 2));
+        public string PropertyTaxText => "$" + String.Format("{0:n0}", Math.Round(PurchasePrice * PropertyTaxPtc, 2));
+        public string MaintenanceCostText => "$" + String.Format("{0:n0}", Math.Round(RentIncome * MaintenanceCostPtc, 2));
+        public string EscrowText => "$" + String.Format("{0:n0}", Math.Round(PurchasePrice * EscrowPtc, 2));
+        public string DownPaymentText => "$" + String.Format("{0:n0}", Math.Round(PurchasePrice * DownPaymentPtc, 2));
+        public string LandValueText => "$" + String.Format("{0:n0}", Math.Round(PurchasePrice * LandValuePtc, 2));
 
         private DownViewModel _downPaymentAnalyst;
         public DownViewModel DownPaymentAnalyst

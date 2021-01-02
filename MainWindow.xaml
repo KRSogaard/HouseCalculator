@@ -6,10 +6,21 @@
         xmlns:local="clr-namespace:HouseCalculator"
         xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="800" Width="1000">
+    <Window.Resources>
+        <Style TargetType="{x:Type Control}" x:Key="baseStyle">
+            <Setter Property="FontSize" Value="17" />
+        </Style>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}" />
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}" />
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseStyle}" />
+        <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource baseStyle}" />
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource baseStyle}" />
+        <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource baseStyle}" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" MinWidth="400px" />
+            <ColumnDefinition Width="Auto" MinWidth="420px" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 

@@ -9,7 +9,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120px" />
-            <ColumnDefinition Width="120px" />
+            <ColumnDefinition Width="180px" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -19,7 +19,7 @@
             <TextBlock Text="{Binding Prefix,
                 RelativeSource={RelativeSource AncestorType=local:InputItemUserControl}}" />
             <TextBox TextAlignment="Right"
-                     Width="75px"
+                     Width="150px"
                      Text="{Binding Value, UpdateSourceTrigger=PropertyChanged,
                 RelativeSource={RelativeSource AncestorType=local:InputItemUserControl}}">
                 <TextBox.InputBindings>
@@ -28,7 +28,7 @@
                 </TextBox.InputBindings>
             </TextBox>
         </StackPanel>
-        <TextBlock Margin="5,0,0,0" Grid.Column="2" Text="{Binding Help,
+        <TextBlock Margin="5,0,0,0" Grid.Column="2" FontSize="17" Text="{Binding Help,
                 RelativeSource={RelativeSource AncestorType=local:InputItemUserControl}}" />
     </Grid>
 </UserControl>

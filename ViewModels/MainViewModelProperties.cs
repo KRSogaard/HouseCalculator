@@ -6,6 +6,65 @@ namespace HouseCalculator.ViewModels
 {
     public partial class MainViewModel
     {
+        private double parseValue(string value, ref string prop, string callMember)
+        {
+            if (String.IsNullOrEmpty(value))
+            {
+                SetProperty(ref prop, "", callMember);
+                return 0;
+            }
+            if (value == ".")
+            {
+                SetProperty(ref prop, ".", callMember);
+                return 0;
+            }
+
+            double tryParse;
+            if (!double.TryParse(value, out tryParse))
+            {
+                RaisePropertyChanged(callMember);
+                return double.Parse(prop);
+            }
+
+            String newTextValue = String.Format("{0:n0}", tryParse);
+            if (tryParse % 1 > 0 || value.EndsWith("."))
+            {
+                if (value.StartsWith("."))
+                {
+                    newTextValue = value;
+                }
+                else
+                {
+                    newTextValue = newTextValue + ".";
+                    if (!value.EndsWith("."))
+                    {
+                        newTextValue = newTextValue + value.Split(".")[1];
+                    }
+                }
+            }
+
+            SetProperty(ref prop, newTextValue, callMember);
+            return tryParse;
+        }
+        private int parseIntValue(string value, ref string prop, string callMember)
+        {
+            if (String.IsNullOrEmpty(value))
+            {
+                SetProperty(ref prop, "", callMember);
+                return 0;
+            }
+
+            int tryParse;
+            if (!int.TryParse(value, out tryParse))
+            {
+                RaisePropertyChanged(callMember);
+                return int.Parse(prop);
+            }
+
+            SetProperty(ref prop, String.Format("{0:n0}", tryParse), callMember);
+            return tryParse;
+        }
+
         private string _purchasePrice;
         public string PurchasePriceField
         {
@@ -15,17 +74,10 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(PurchasePriceField));
-                    return;
-                }
-
-                PurchasePrice = tryParse;
-                SetProperty(ref _purchasePrice, value);
+                PurchasePrice = parseValue(value, ref _purchasePrice, nameof(PurchasePriceField));
                 RaisePropertyChanged(nameof(LandValueText));
                 RaisePropertyChanged(nameof(DownPaymentText));
+                RaisePropertyChanged(nameof(ManagementFeeText));
                 RaisePropertyChanged(nameof(EscrowText));
                 RaisePropertyChanged(nameof(TotalClosing));
                 RaisePropertyChanged(nameof(PropertyTaxText));
@@ -41,15 +93,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(LandValuePtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _landValuePtc, nameof(LandValuePtcField));
                 LandValuePtc = tryParse / 100;
-                SetProperty(ref _landValuePtc, value);
                 RaisePropertyChanged(nameof(LandValueText));
             }
         }
@@ -63,15 +108,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(DownPaymentPtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _downPaymentPtc, nameof(DownPaymentPtcField));
                 DownPaymentPtc = tryParse / 100;
-                SetProperty(ref _downPaymentPtc, value);
                 RaisePropertyChanged(nameof(DownPaymentText));
             }
         }
@@ -85,16 +123,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(LoanFeeField));
-                    RaisePropertyChanged(nameof(TotalClosing));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _loanFee, nameof(LoanFeeField));
                 LoanFee = tryParse;
-                SetProperty(ref _loanFee, value);
             }
         }
 
@@ -107,15 +137,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(EscrowPtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _escrowPtc, nameof(EscrowPtcField));
                 EscrowPtc = tryParse / 100;
-                SetProperty(ref _escrowPtc, value);
                 RaisePropertyChanged(nameof(EscrowText));
                 RaisePropertyChanged(nameof(TotalClosing));
             }
@@ -130,15 +153,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(EscrowPtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _loanPtc, nameof(LoanPtcField));
                 LoanPtc = tryParse / 100;
-                SetProperty(ref _loanPtc, value);
                 RaisePropertyChanged(nameof(LoanPtcField));
             }
         }
@@ -152,15 +168,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                int tryParse;
-                if (!int.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(LoanTermsField));
-                    return;
-                }
-
+                int tryParse = parseIntValue(value, ref _loanTerms, nameof(LoanTermsField));
                 LoanTerms = tryParse;
-                SetProperty(ref _loanTerms, value);
             }
         }
 
@@ -173,16 +182,10 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(RentIncomeField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _rentIncome, nameof(RentIncomeField));
                 RentIncome = tryParse;
-                SetProperty(ref _rentIncome, value);
                 RaisePropertyChanged(nameof(ManagementFeeText));
+                RaisePropertyChanged(nameof(MaintenanceCostText));
             }
         }
 
@@ -195,15 +198,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(RemodelCostField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _remodelCost, nameof(RemodelCostField));
                 RemodelCost = tryParse;
-                SetProperty(ref _remodelCost, value);
                 RaisePropertyChanged(nameof(TotalClosing));
             }
         }
@@ -217,15 +213,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(RemodelValueIncreaseField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _remodelValueIncrease, nameof(RemodelValueIncreaseField));
                 RemodelValueIncrease = tryParse;
-                SetProperty(ref _remodelValueIncrease, value);
                 RaisePropertyChanged(nameof(TotalClosing));
             }
         }
@@ -239,15 +228,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(ManagementFeePtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _managementFeePtc, nameof(ManagementFeePtcField));
                 ManagementFeePtc = tryParse / 100;
-                SetProperty(ref _managementFeePtc, value);
                 RaisePropertyChanged(nameof(ManagementFeeText));
             }
         }
@@ -261,15 +243,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(MaintenanceCostPtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _maintenanceCostPtc, nameof(MaintenanceCostPtcField));
                 MaintenanceCostPtc = tryParse / 100;
-                SetProperty(ref _maintenanceCostPtc, value);
                 RaisePropertyChanged(nameof(MaintenanceCostText));
             }
         }
@@ -283,15 +258,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(EscrowPtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _taxRatePtc, nameof(TaxRatePtcField));
                 TaxRatePtc = tryParse / 100;
-                SetProperty(ref _taxRatePtc, value);
                 RaisePropertyChanged(nameof(TaxRatePtcField));
             }
         }
@@ -305,15 +273,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(PropertyTaxPtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _propertyTexPtc, nameof(PropertyTaxPtcField));
                 PropertyTaxPtc = tryParse / 100;
-                SetProperty(ref _propertyTexPtc, value);
                 RaisePropertyChanged(nameof(PropertyTaxText));
             }
         }
@@ -327,15 +288,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(VacancyRatePtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _vacancyRatePtc, nameof(VacancyRatePtcField));
                 VacancyRatePtc = tryParse / 100;
-                SetProperty(ref _vacancyRatePtc, value);
             }
         }
 
@@ -348,15 +302,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(AnnualAppreciationPtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _annualAppreciationPtc, nameof(AnnualAppreciationPtcField));
                 AnnualAppreciationPtc = tryParse / 100;
-                SetProperty(ref _annualAppreciationPtc, value);
             }
         }
 
@@ -369,15 +316,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(AnnualRentPtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _annualRentPtc, nameof(AnnualRentPtcField));
                 AnnualRentPtc = tryParse / 100;
-                SetProperty(ref _annualRentPtc, value);
             }
         }
 
@@ -390,15 +330,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(AnnualUtilitiesField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _annualUtilities, nameof(AnnualUtilitiesField));
                 AnnualUtilities = tryParse;
-                SetProperty(ref _annualUtilities, value);
             }
         }
 
@@ -411,15 +344,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(AnnualInsuranceField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _annualInsurance, nameof(AnnualInsuranceField));
                 AnnualInsurance = tryParse;
-                SetProperty(ref _annualInsurance, value);
             }
         }
 
@@ -432,15 +358,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(AnnualOtherCostField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _annualOtherCost, nameof(AnnualOtherCostField));
                 AnnualOtherCost = tryParse;
-                SetProperty(ref _annualOtherCost, value);
             }
         }
 
@@ -453,15 +372,8 @@ namespace HouseCalculator.ViewModels
             }
             set
             {
-                double tryParse;
-                if (!double.TryParse(value, out tryParse))
-                {
-                    RaisePropertyChanged(nameof(SalesFeePtcField));
-                    return;
-                }
-
+                double tryParse = parseValue(value, ref _salesFeePtc, nameof(SalesFeePtcField));
                 SalesFeePtc = tryParse / 100;
-                SetProperty(ref _salesFeePtc, value);
             }
         }
     }
