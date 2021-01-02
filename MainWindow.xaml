@@ -204,10 +204,10 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Year"
                                         Binding="{Binding Year, Mode=OneWay}" />
-                        <DataGridTextColumn Header="Monthly CHI"
-                                        Binding="{Binding MonthlyCHI, Mode=OneWay}" />
-                        <DataGridTextColumn Header="Monthly CHI %"
-                                        Binding="{Binding MonthlyCHIPtc, StringFormat='f', Mode=OneWay}" />
+                        <DataGridTextColumn Header="Monthly CIH"
+                                        Binding="{Binding MonthlyCIH, Mode=OneWay}" />
+                        <DataGridTextColumn Header="CIH %"
+                                        Binding="{Binding MonthlyCIHPtc, StringFormat='f', Mode=OneWay}" />
                         <DataGridTextColumn Header="Sale %"
                                     Binding="{Binding SalePtc, Mode=OneWay}" />
                         <DataGridTextColumn Header="Value gain at sale"
@@ -228,8 +228,8 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="PCT"
                                         Binding="{Binding PCT, Mode=OneWay}" />
-                        <DataGridTextColumn Header="Monthly CHI %"
-                                        Binding="{Binding CHIROIText, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Monthly CIH %"
+                                        Binding="{Binding CIHROIText, Mode=OneWay}" />
                         <DataGridTextColumn Header="At Sale ROI"
                                         Binding="{Binding AtSaleText, Mode=OneWay}" />
                         <DataGridTextColumn Header="Year 5 Intrest"
@@ -237,7 +237,7 @@
                         <DataGridTextColumn Header="Year 5 Taxes"
                                         Binding="{Binding TaxPaid, Mode=OneWay}" />
                         <DataGridTextColumn Header="Year 5 Monthly CIH"
-                                        Binding="{Binding MonthlyCHI, Mode=OneWay}" />
+                                        Binding="{Binding MonthlyCIH, Mode=OneWay}" />
                     </DataGrid.Columns>
                 </DataGrid></TabItem>
             

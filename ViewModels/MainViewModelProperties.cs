@@ -18,7 +18,11 @@ namespace HouseCalculator.ViewModels
                 SetProperty(ref prop, ".", callMember);
                 return 0;
             }
-
+            
+            if (value.StartsWith(","))
+            {
+                value = value.Substring(1);
+            }
             double tryParse;
             if (!double.TryParse(value, out tryParse))
             {
@@ -26,7 +30,7 @@ namespace HouseCalculator.ViewModels
                 return double.Parse(prop);
             }
 
-            String newTextValue = String.Format("{0:n0}", tryParse);
+            String newTextValue = String.Format("{0:n0}", tryParse - (tryParse % 1));
             if (tryParse % 1 > 0 || value.EndsWith("."))
             {
                 if (value.StartsWith("."))
