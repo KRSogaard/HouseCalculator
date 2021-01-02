@@ -29,6 +29,11 @@ namespace HouseCalculator.ViewModels
                 RaisePropertyChanged(callMember);
                 return double.Parse(prop);
             }
+            if (tryParse == 0)
+            {
+                SetProperty(ref prop, value, callMember);
+                return 0;
+            }
 
             String newTextValue = String.Format("{0:n0}", tryParse - (tryParse % 1));
             if (tryParse % 1 > 0 || value.EndsWith("."))
