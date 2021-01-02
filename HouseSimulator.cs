@@ -151,12 +151,14 @@ namespace HouseCalculator
                         CashInHand = yearlyCashInHand,
                         ValueAtSale = valueAtSale,
                         NetIncome = yearlyNetIncome,
+                        TotalNetIncome = result.Years.Count == 0 ? yearlyNetIncome : result.Years[result.Years.Count - 1].TotalNetIncome + yearlyNetIncome,
                         TaxPaid = yearlyTaxPaid,
                         ValueGain = yearlyValueGain,
+                        TotalValueGain = result.Years.Count == 0 ? yearlyValueGain : result.Years[result.Years.Count - 1].TotalValueGain + yearlyValueGain,
                         IntrestPaid = yearlyIntrestPaid,
                         PrincipalPaid = yearlyPrincipalPaid,
                         PropertyTax = yearlyPropertyTax
-                    });
+                    }); ;
                 }
             }
 
@@ -194,7 +196,9 @@ namespace HouseCalculator
             public double ValueGain { get; set; }
             public double IntrestPaid { get; set; }
             public double PrincipalPaid { get; set; }
-            public double PropertyTax { get; internal set; }
+            public double PropertyTax { get; set; }
+            public double TotalNetIncome { get; set; }
+            public double TotalValueGain { get; set; }
 
             public override string ToString()
             {

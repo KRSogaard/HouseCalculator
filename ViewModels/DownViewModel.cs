@@ -34,10 +34,10 @@ namespace HouseCalculator.ViewModels
             this.result = result;
         }
         public String PCT => Math.Round(_pct * 100, 2) + "%";
-        public String CHIROIText => Math.Round((year.CashInHand / result.OutOfPocket) * 100, 2) + "%";
+        public String CIHROIText => Math.Round((year.CashInHand / result.OutOfPocket) * 100, 2) + "%";
         public String AtSaleText => Math.Round(((year.ValueAtSale / result.OutOfPocket) * 100) / year.Year, 2) + "%";
         public String IntrestPaid => "$" + String.Format("{0:n}", Math.Round(year.IntrestPaid));
         public String TaxPaid => "$" + String.Format("{0:n}", Math.Round(year.TaxPaid));
-        public String MonthlyCHI => "$" + String.Format("{0:n}", Math.Round(year.CashInHand / 12));
+        public String MonthlyCIH => "$" + String.Format("{0:n}", Math.Round(year.CashInHand / 12));
     }
 }

@@ -212,12 +212,16 @@
                                     Binding="{Binding SalePtc, Mode=OneWay}" />
                         <DataGridTextColumn Header="Value gain at sale"
                                         Binding="{Binding SaleValue, Mode=OneWay}" />
-                        <DataGridTextColumn Header="Total net income"
+                        <DataGridTextColumn Header="Year net income"
                                         Binding="{Binding NetIncome, Mode=OneWay}" />
-                        <DataGridTextColumn Header="Total tax paid"
+                        <DataGridTextColumn Header="Year tax paid"
                                         Binding="{Binding TaxPaid, Mode=OneWay}" />
-                        <DataGridTextColumn Header="Value gain"
+                        <DataGridTextColumn Header="Year value gain"
                                         Binding="{Binding ValueGain, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Total value gain"
+                                        Binding="{Binding TotalValueGain, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Total net income"
+                                        Binding="{Binding TotalNetIncome, Mode=OneWay}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

@@ -347,26 +347,26 @@ namespace HouseCalculator.ViewModels
         public void From(Input input)
         {
             PurchasePriceField = input.PurchasePrice.ToString();
-            LandValuePtcField = input.LandValuePtc.ToString();
-            DownPaymentPtcField = input.DownPaymentPtc.ToString();
+            LandValuePtcField = Math.Round(input.LandValuePtc * 100, 2).ToString();
+            DownPaymentPtcField = Math.Round(input.DownPaymentPtc * 100, 2).ToString();
             LoanFeeField = input.LoanFee.ToString();
-            EscrowPtcField = input.EscrowPtc.ToString();
-            LoanPtcField = input.LoanPtc.ToString();
+            EscrowPtcField = Math.Round(input.EscrowPtc * 100, 2).ToString();
+            LoanPtcField = Math.Round(input.LoanPtc * 100, 2).ToString();
             LoanTermsField = input.LoanTerms.ToString();
             RentIncomeField = input.RentIncome.ToString();
             RemodelCostField = input.RemodelCost.ToString();
             RemodelValueIncreaseField = input.RemodelValueIncrease.ToString();
-            ManagementFeePtcField = input.ManagementFeePtc.ToString();
-            MaintenanceCostPtcField = input.MaintenanceCostPtc.ToString();
-            TaxRatePtcField = input.TaxRatePtc.ToString();
-            PropertyTaxPtcField = input.PropertyTaxPtc.ToString();
-            VacancyRatePtcField = input.VacancyRatePtc.ToString();
-            AnnualAppreciationPtcField = input.AnnualAppreciationPtc.ToString();
-            AnnualRentPtcField = input.AnnualRentPtc.ToString();
+            ManagementFeePtcField = Math.Round(input.ManagementFeePtc * 100, 2).ToString();
+            MaintenanceCostPtcField = Math.Round(input.MaintenanceCostPtc * 100, 2).ToString();
+            TaxRatePtcField = Math.Round(input.TaxRatePtc * 100, 2).ToString();
+            PropertyTaxPtcField = Math.Round(input.PropertyTaxPtc * 100, 2).ToString();
+            VacancyRatePtcField = Math.Round(input.VacancyRatePtc * 100, 2).ToString();
+            AnnualAppreciationPtcField = Math.Round(input.AnnualAppreciationPtc * 100, 2).ToString();
+            AnnualRentPtcField = Math.Round(input.AnnualRentPtc * 100, 2).ToString();
             AnnualUtilitiesField = input.AnnualUtilities.ToString();
             AnnualInsuranceField = input.AnnualInsurance.ToString();
             AnnualOtherCostField = input.AnnualOtherCost.ToString();
-            SalesFeePtcField = input.SalesFeePtc.ToString();
+            SalesFeePtcField = Math.Round(input.SalesFeePtc * 100, 2).ToString();
         }
     }
 }
