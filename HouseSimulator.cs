@@ -109,7 +109,7 @@ namespace HouseCalculator
                     taxableAtSale = 0;
                 }
 
-                double taxAtSale = taxableAtSale * input.TaxRatePtc;
+                double taxAtSale = calculateLongTermCapitalGainsTax(taxableAtSale);
                 double cashAtSale = cashAtSalePreTax - taxAtSale - input.RemodelCost - input.ClosingCost;
                 double valueAtSale = cashAtSale + totalProfit;
 
@@ -120,7 +120,6 @@ namespace HouseCalculator
                 {
                     currentRent *= 1 + input.AnnualRentIncreasePtc;
                 }
-
 
                 simulationMonth.Month = i;
                 simulationMonth.Year = (int) Math.Floor(i / 12.0);
@@ -164,6 +163,20 @@ namespace HouseCalculator
 
             result.ExectureTime = DateTime.Now - start;
             return result;
+        }
+
+        private double calculateLongTermCapitalGainsTax(double valueGain)
+        {
+            // Long - term capital gains tax rate    Your income
+            // 0 %  $0 to $53,600
+            // 15 % $53,601 to $469,050
+            // 20 % $469,051 or more
+
+            double bracker1 = valueGain > 53600 ? 53600 : valueGain;
+            double bracker2 = valueGain > 469050 ? 469050 - 53000 : (valueGain > 53600 ? valueGain - 53000 : 0);
+            double bracker3 = valueGain > 469050 ? valueGain - 469050 - 53600 : 0;
+
+            return bracker1 * 0.0 + bracker2 * 0.15 + bracker3 * 0.2;
         }
 
 
