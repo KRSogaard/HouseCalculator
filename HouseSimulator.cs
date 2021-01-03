@@ -18,9 +18,13 @@ namespace HouseCalculator
 
             double currentRent = input.MonthlyRentIncomePerMonth;
             double currentHousePrice = input.PurchasePrice + input.RemodelValueIncrease;
-            double depreciation = (input.PurchasePrice - input.LandValue) / input.DepreciationOverYears / 12;
-            double taxCredit = input.RemodelCost + input.ClosingCost;
+
+            double totalAcquisitionCost = input.PurchasePrice + input.ClosingCost;
+            double acquisitionCostBuilding = totalAcquisitionCost * (1 - input.LandValue / input.PurchasePrice) + input.RemodelCost;
+            double depreciation = acquisitionCostBuilding / input.DepreciationOverYears / 12;
+            double taxCredit = 0;
             double totalProfit = 0;
+            double monthlyPropertyTax = input.PurchasePrice * (input.PropertyTaxPtc / 12.0);
 
             result.OutOfPocket = input.DownPayment + input.ClosingCost + input.RemodelCost;
 
@@ -33,7 +37,6 @@ namespace HouseCalculator
                 simulationMonth.PrincipalPaid = principal;
                 simulationMonth.IntrestPaid = intrest;
 
-                double monthlyPropertyTax = input.PurchasePrice * (input.PropertyTaxPtc / 12.0);
                 double monthlyMaintenance = input.MaintenanceCostPtc * currentRent;
                 double monthlyManagement = input.ManagementFeePtc * currentRent;
                 double monthlyExpense = intrest + input.ExpensesMonthly + monthlyMaintenance + monthlyManagement + monthlyPropertyTax;
@@ -45,6 +48,7 @@ namespace HouseCalculator
                 simulationMonth.RentIncome = currentRent;
                 double monthlyProfit = currentRent * (1 - input.VacancyRatePtc) - monthlyExpense;
                 totalProfit += monthlyProfit;
+
                 double monthlyDepreciation = 0;
                 if (i / 12.0 <= input.DepreciationOverYears)
                 {
@@ -97,7 +101,7 @@ namespace HouseCalculator
 
                 loanRemaining -= principal;
 
-                currentHousePrice *= 1 + input.AnnualAppreciationPtc / 12;
+                currentHousePrice *= 1 + (input.AnnualAppreciationPtc / 12);
 
 
                 double costToSale = currentHousePrice * input.FeesAtSalePtc;
@@ -171,10 +175,12 @@ namespace HouseCalculator
             // 0 %  $0 to $53,600
             // 15 % $53,601 to $469,050
             // 20 % $469,051 or more
+            int b1Value = 53600 * 2; // *2 for married
+            int b2Value = 469050 * 2; // *2 for married
 
-            double bracker1 = valueGain > 53600 ? 53600 : valueGain;
-            double bracker2 = valueGain > 469050 ? 469050 - 53000 : (valueGain > 53600 ? valueGain - 53000 : 0);
-            double bracker3 = valueGain > 469050 ? valueGain - 469050 - 53600 : 0;
+            double bracker1 = valueGain > b1Value ? b1Value : valueGain;
+            double bracker2 = valueGain > b2Value ? b2Value - b1Value : (valueGain > b1Value ? valueGain - b1Value : 0);
+            double bracker3 = valueGain > b2Value ? valueGain - b2Value - b1Value : 0;
 
             return bracker1 * 0.0 + bracker2 * 0.15 + bracker3 * 0.2;
         }

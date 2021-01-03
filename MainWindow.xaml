@@ -61,13 +61,13 @@
                 Help="{Binding EscrowText}"/>
 
             <local:InputItemUserControl
-                Label="Remodel Cost:"
+                Label="Rehab Cost:"
                 Prefix="%"
                 OnEnter="{Binding CalculateCommand}"
                 Value="{Binding RemodelCostField, UpdateSourceTrigger=PropertyChanged}"/>
 
             <local:InputItemUserControl
-                Label="Remodel value increase:"
+                Label="Rehab value increase:"
                 Prefix="%"
                 OnEnter="{Binding CalculateCommand}"
                 Value="{Binding RemodelValueIncreaseField, UpdateSourceTrigger=PropertyChanged}"/>
